@@ -1,0 +1,42 @@
+<h3>
+  orders
+</h3>
+<table class="table">
+  <tr>
+    <th>Order ID</th>
+    <th>Order Date</th>
+    <th>Delivery Status</th>
+    <th>Date of Delivery</th>
+    <th>Total Price</th>
+    <th>View Details</th>
+  </tr>
+  <tr *ngFor="let order of orders">
+    <td>{{order.orderId}}</td>
+    <td>{{order.orderDate}}</td>
+    <td>{{order.DeliveryStatus}}</td>
+    <td>{{order.deliveryDate}}</td>
+    <td>{{order.totalPrice()}}</td>
+    <td>
+      <button class="btn btn-link"
+        (click) = "viewDetails(order)">View Details</button>
+    </td>
+  </tr>
+</table>
+<br/>
+<div *ngIf="itemsInSelectedOrder">
+  <h4>Item ordered</h4>
+  <table class="table">
+    <tr>
+      <th>Item ID</th>
+      <th>Name</th>
+      <th>Unit Price</th>
+      <th>Category</th>
+    </tr>
+    <tr *ngFor="let item of itemsInSelectedOrder">
+      <td>{{item.itemId}}</td>
+      <td>{{item.name}}</td>
+      <td>{{item.unitPrice}}</td>
+      <td>{{item.category}}</td>
+    </tr>
+  </table>
+</div>
