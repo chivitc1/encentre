@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {Order, orders} from "./order.model";
-import { Item } from "./item.model";
+import { Item, Order, orders} from "./order.data";
 @Component({
   selector: 'app-orders',
   templateUrl: './orders.component.html',

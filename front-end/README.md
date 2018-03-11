@@ -1,27 +1,28 @@
-# Encentre
+#Multi components - communications
+app-order-list use app-order-details
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.7.2.
+##When user select an item in order-list, bind that item to order-details property
+<app-order-details [order]="selectedOrder" ...>
 
-## Development server
+##order-details need @Input() property to accept the input from order-list
+  @Input()
+  order: Order;
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+##order-details have close button, need emit close event to order-list using @Output()
+  @Output()
+  close = new EventEmitter();
 
-## Code scaffolding
+##order-list need attach close event to order-details it using
+<app-order-details [order]="selectedOrder"
+  (close)="closeDetails()"></app-order-details>
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+##order-list update selectedOrder on the close event
+  closeDetails() {
+    this.selectedOrder = null;
+  }
+Then order-details will disapear
 
-## Build
+##order-list need highlight the current selected item
+  <tr *ngFor="let order of orders"
+    [class.selected-order]="order === selectedOrder">
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).

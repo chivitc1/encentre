@@ -1,0 +1,28 @@
+<h3>
+  Orders
+</h3>
+<table class="table">
+  <tr>
+    <th>Order ID</th>
+    <th>Order Date</th>
+    <th>Delivery Status</th>
+    <th>Date of Delivery</th>
+    <th>Total Price</th>
+    <th>View Details</th>
+  </tr>
+  <tr *ngFor="let order of orders"
+    [class.selected-order]="order === selectedOrder">
+    <td>{{order.orderId}}</td>
+    <td>{{order.orderDate}}</td>
+    <td>{{order.DeliveryStatus}}</td>
+    <td>{{order.deliveryDate}}</td>
+    <td>{{order.totalPrice()}}</td>
+    <td>
+      <button class="btn btn-link"
+        (click) = "viewDetails(order)">View Details</button>
+    </td>
+  </tr>
+</table>
+<br/>
+<app-order-details [order]="selectedOrder"
+  (close)="closeDetails()"></app-order-details>
