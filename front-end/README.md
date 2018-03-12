@@ -1,28 +1,18 @@
-#Multi components - communications
-app-order-list use app-order-details
+#Create a directive 
+- ToDos is component consist of list of <div>todo</div>
+- Create appHightlight directive to change <div> todo item</div> to be hightlighted when event select/click occurs
 
-##When user select an item in order-list, bind that item to order-details property
-<app-order-details [order]="selectedOrder" ...>
-
-##order-details need @Input() property to accept the input from order-list
-  @Input()
-  order: Order;
-
-##order-details have close button, need emit close event to order-list using @Output()
-  @Output()
-  close = new EventEmitter();
-
-##order-list need attach close event to order-details it using
-<app-order-details [order]="selectedOrder"
-  (close)="closeDetails()"></app-order-details>
-
-##order-list update selectedOrder on the close event
-  closeDetails() {
-    this.selectedOrder = null;
+##appHightlight directive 
+- ng generate directive todos/hightlight
+- use host event: mapping event from HTML element which host this directive with handler method
+host: {
+    '(click)' : 'selected()'
   }
-Then order-details will disapear
-
-##order-list need highlight the current selected item
-  <tr *ngFor="let order of orders"
-    [class.selected-order]="order === selectedOrder">
+- handler selected(): set host's ele style base on its current style, to null or this.color to toggle
+  selected() {
+     this.el.style.backgroundColor = this.el.style.backgroundColor? null : this.color;
+   }
+- this.color is a @Input() to accept binding value which is also a color property from the host todos component
+##When user click an item 
+- the background color of item toggle on / off
 

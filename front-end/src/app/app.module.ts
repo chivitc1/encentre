@@ -7,6 +7,8 @@ import { HelloComponent } from './hello/hello.component';
 import { OrdersComponent } from './orders/orders.component';
 import { OrderListComponent } from './order-list/order-list.component';
 import { OrderDetailsComponent } from './order-details/order-details.component';
+import { TodosComponent } from './todos/todos.component';
+import { HighlightDirective } from './todos/highlight.directive';
 
 @NgModule({
   declarations: [
@@ -14,7 +16,9 @@ import { OrderDetailsComponent } from './order-details/order-details.component';
     HelloComponent,
     OrdersComponent,
     OrderListComponent,
-    OrderDetailsComponent
+    OrderDetailsComponent,
+    TodosComponent,
+    HighlightDirective
   ],
   imports: [
     BrowserModule,
