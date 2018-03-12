@@ -9,6 +9,8 @@ import { OrderListComponent } from './order-list/order-list.component';
 import { OrderDetailsComponent } from './order-details/order-details.component';
 import { TodosComponent } from './todos/todos.component';
 import { HighlightDirective } from './todos/highlight.directive';
+import { DemoShowWhenComponent } from './demo-show-when/demo-show-when.component';
+import { ShowWhenEventDirective } from './demo-show-when/show-when-event.directive';
 
 @NgModule({
   declarations: [
@@ -18,7 +20,9 @@ import { HighlightDirective } from './todos/highlight.directive';
     OrderListComponent,
     OrderDetailsComponent,
     TodosComponent,
-    HighlightDirective
+    HighlightDirective,
+    DemoShowWhenComponent,
+    ShowWhenEventDirective
   ],
   imports: [
     BrowserModule,

@@ -1,18 +1,31 @@
 #Create a directive 
-- ToDos is component consist of list of <div>todo</div>
-- Create appHightlight directive to change <div> todo item</div> to be hightlighted when event select/click occurs
+- The directive accepts a numeric field from the component and
+- Based on the value of the input, content will be added or removed.
 
-##appHightlight directive 
-- ng generate directive todos/hightlight
-- use host event: mapping event from HTML element which host this directive with handler method
-host: {
-    '(click)' : 'selected()'
+- generate component for demo
+ ng generate component demoShowWhen
+
+- generate directive
+ng generate directive demo-show-when/showWhenEvent
+
+- component use directive
+<p *appShowWhenEvent="value">
+  I show you this when value is an even number.
+</p>
+
+- directive need an @Input()
+  constructor( 
+    private templateRef: TemplateRef<any>,
+    private viewContainer: ViewContainerRef) { }
+
+  @Input('appShowWhenEvent')
+  set showWhenEvent(value: number) {
+    if (value % 2 == 0) {
+      this.viewContainer.createEmbeddedView(this.templateRef);
+    } else {
+      this.viewContainer.clear();
+    }
   }
-- handler selected(): set host's ele style base on its current style, to null or this.color to toggle
-  selected() {
-     this.el.style.backgroundColor = this.el.style.backgroundColor? null : this.color;
-   }
-- this.color is a @Input() to accept binding value which is also a color property from the host todos component
-##When user click an item 
-- the background color of item toggle on / off
 
+  - use method createEmbeddedView() to show element
+  - use method clear() to hide element
