@@ -11,6 +11,8 @@ import { TodosComponent } from './todos/todos.component';
 import { HighlightDirective } from './todos/highlight.directive';
 import { DemoShowWhenComponent } from './demo-show-when/demo-show-when.component';
 import { ShowWhenEventDirective } from './demo-show-when/show-when-event.directive';
+import { EmployeeComponent } from './two-ways-binding/employee/employee.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -22,10 +24,12 @@ import { ShowWhenEventDirective } from './demo-show-when/show-when-event.directi
     TodosComponent,
     HighlightDirective,
     DemoShowWhenComponent,
-    ShowWhenEventDirective
+    ShowWhenEventDirective,
+    EmployeeComponent
   ],
   imports: [
     BrowserModule,
+    FormsModule,
     NgbModule.forRoot()
   ],
   providers: [],
