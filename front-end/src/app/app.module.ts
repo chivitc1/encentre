@@ -5,6 +5,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppComponent } from './app.component';
 import { HelloComponent } from './hello/hello.component';
 import { OrdersComponent } from './orders/orders.component';
+import { EmployeeComponent } from './form-model-driven/employee/employee.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: "orders-app",
@@ -14,15 +16,14 @@ export class OrdersAppComponent {}
 @NgModule({
   declarations: [
     AppComponent,
-    HelloComponent,
-    OrdersComponent,
-    OrdersAppComponent
+    EmployeeComponent
   ],
   imports: [
     BrowserModule,
+    ReactiveFormsModule,
     NgbModule.forRoot()
   ],
   providers: [],
-  bootstrap: [OrdersAppComponent]
+  bootstrap: [AppComponent]
 })
 export class AppModule { }
