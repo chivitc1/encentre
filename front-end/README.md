@@ -1,39 +1,33 @@
-# Form template driven
-## When to use this aproach?
-- Simple form with simple logic (like login form, contact)
+# Demo use service in component
+- Declare @Injectable() in service class
+@Injectable()
+export class EmployeeService {
 
-## Explainations
-- Use template ref variable to ngForm
-  <form (ngSubmit)="save()" #empForm="ngForm" novalidate>
+  private employees: Employee[];
+  constructor() {
+    this.employees = [
+      { empNo: 1, empName: 'Nguyen Van A'},
+      { empNo: 2, empName: 'Nguyen Van B'},
+      { empNo: 3, empName: 'Nguyen Van C'},
+      { empNo: 4, empName: 'Nguyen Van D'}
+    ]
+   }
 
-And 
+   list(): Employee[] {
+     return this.employees;
+   }
 
-    <div class="form-group">
-      <input type="button" (click)="clear()" value="Clear" class="btn btn-danger">
-      <input type="submit" value="Submit" class="btn btn-success" [disabled]="!empForm.valid">
-    </div>
-    
-- Use template ref variable to ngModel
-    <div class="form-group">
-      <label for="empNo">EmpNo</label>
-      <input type="text" class="form-control" [(ngModel)]="emp.empNo" name="empNo" #empNo="ngModel" required pattern="[0-9]+">
+- Declare service in component provider or module provider, and inject service in component constructor args
 
-      <div [hidden]="empNo.valid || empNo.pristine" class="alert alert-danger">
-        Employee number is mandatory and is numeric
-      </div>
-    </div>
-    <div class="form-group">
-      <label for="empName">Emp Name</label>
-      <input type="text" class="form-control" [(ngModel)]="emp.empName" name="empName" #empName="ngModel" required>
-      <div [hidden]="empName.valid || empName.pristine" class="alert alert-danger">
-        Employee name is mandatory
-      </div>
-    </div>
+@Component({
+  selector: 'app-employee',
+  templateUrl: './employee.component.html',
+  styleUrls: ['./employee.component.css'],
+  providers: [EmployeeService]
+})
+export class EmployeeComponent implements OnInit {
 
-## Import FormsModule in AppModule
-  imports: [
-    BrowserModule,    
-    FormsModule,
-    NgbModule.forRoot()
-  ]
-
+  constructor(private empService: EmployeeService) {
+    this.emp = new Employee(0, "");
+    this.frmSubmitted = false;
+   }
