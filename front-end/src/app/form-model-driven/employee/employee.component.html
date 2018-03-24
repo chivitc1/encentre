@@ -1,136 +1,25 @@
-<p>
-  employee works!
-</p>
-<div [hidden]="frmSubmitted">
-  <form (ngSubmit)="save()" 
-    [formGroup]="form"
-    novalidate>
-    <table class="table table-stripped table-bordered">
-      <tr>
-        <td>Emp No</td>
-        <td>
-          <input type="text"
-            class="form-control"
-            formControlName="empNo"
-            [(ngModel)]="emp.empNo">
-        </td>
+<div class="container">
+  <form (ngSubmit)="save()" #empForm="ngForm" novalidate>
+    <div class="form-group">
+      <label for="empNo">EmpNo</label>
+      <input type="text" class="form-control" [(ngModel)]="emp.empNo" name="empNo" #empNo="ngModel" required pattern="[0-9]+">
 
-        <div *ngIf="form.controls.empNo.dirty && !form.controls.empNo.valid"
-          class="alert alert-danger">
-          <p *ngIf="form.controls.empNo.errors.required">
-            Employee number is mandatory
-          </p>
-          <p *ngIf="form.controls.empNo.errors.pattern">
-            Employee number must be numeric
-          </p>
-        </div>
-      </tr>
-      <tr>
-        <td>Emp Name</td>
-        <td><input type="text" class="form-control"
-          formControlName="empName"
-          [(ngModel)]="emp.empName" >
-        </td>        
-      </tr>
-      <tr>
-        <td>Salary</td>
-        <td>
-          <input type="text" class="form-control"
-            formControlName="salary"
-            [(ngModel)]="emp.salary"
-            (blur)="setDesignation()">
-        </td>
-        <td>
-          Tax payable is:
-          <input type="text"
-            [value]="emp.salary*0.2"
-            class="form-control" disabled>
-        </td>
-        <td *ngIf="emp.salary>0">
-          <h5>Your salary is taxable please click on link to read the Tax rules</h5>
-          <a [href]="helpLink" target="_blank">{{helpText}}</a>
-        </td>
-
-      </tr>
-      <tr>
-        <td>Dept Name</td>
-        <td>
-          <input type="text" class="form-control"
-            formControlName="deptName"
-            [(ngModel)]="emp.deptName">
-        </td>
-      </tr>
-      <tr>
-        <td>Designation</td>
-        <td>
-          <input type="text" class="form-control"
-            formControlName="designation"
-            [(ngModel)]="emp.designation"
-            readonly>
-        </td>
-      </tr>
-
-      <tr>
-        <td>Email</td>
-        <td>
-          <input type="text" class="form-control"
-            [(ngModel)]="emp.email"
-            formControlName="email">
-        </td>
-        <div *ngIf="form.controls.email.dirty && !form.controls.email.valid"
-          class="alert alert-danger">
-          <p *ngIf="form.controls.email.errors.required">
-            Email address is mandatory
-          </p>
-          <p *ngIf="form.controls.email.errors.invalidEmail">
-            Email must be valid with all character in lower case
-          </p>
-        </div>
-      </tr>
-    </table>
+      <div [hidden]="empNo.valid || empNo.pristine" class="alert alert-danger">
+        Employee number is mandatory and is numeric
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="empName">Emp Name</label>
+      <input type="text" class="form-control" [(ngModel)]="emp.empName" name="empName" #empName="ngModel" required>
+      <div [hidden]="empName.valid || empName.pristine" class="alert alert-danger">
+        Employee name is mandatory
+      </div>
+    </div>
     <hr>
 
-    <table class="table table-bordered table-stripped" [hidden]="frmSubmitted">
-      <tr>
-        <td>
-          <input type="button"
-            (click)="clear()"
-            value="Clear" class="btn btn-danger">
-        </td>
-        <td>
-          <input type="submit"
-            value="Submit" class="btn btn-success"
-            [disabled]="!form.valid">
-        </td>
-      </tr>
-    </table>
+    <div class="form-group">
+      <input type="button" (click)="clear()" value="Clear" class="btn btn-danger">
+      <input type="submit" value="Submit" class="btn btn-success" [disabled]="!empForm.valid">
+    </div>
   </form>
-</div>
-<hr>
-
-<div [hidden]="!frmSubmitted">
-  <table class="table table-bordered table-stripped">
-    <thead>
-      <tr>
-        <td>EmpNo</td>
-        <td>EmpName</td>
-        <td>Salary</td>
-        <td>DeptName</td>
-        <td>Designation</td>
-        <td>Tax</td>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let emp of employees">
-        <td>{{emp.empNo}}</td>
-        <td>{{emp.empName}}</td>
-        <td>{{emp.salary}}</td>
-        <td>{{emp.deptName}}</td>
-        <td>{{emp.designation}}</td>
-        <td>{{emp.salary * 0.2}}</td>
-      </tr>
-    </tbody>
-  </table>
-  <input type="button" value="Ok" class="btn btn-default"
-    (click)="loadForm()">
 </div>

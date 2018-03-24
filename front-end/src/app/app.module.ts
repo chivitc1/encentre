@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { HelloComponent } from './hello/hello.component';
 import { OrdersComponent } from './orders/orders.component';
 import { EmployeeComponent } from './form-model-driven/employee/employee.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: "orders-app",
@@ -19,8 +19,8 @@ export class OrdersAppComponent {}
     EmployeeComponent
   ],
   imports: [
-    BrowserModule,
-    ReactiveFormsModule,
+    BrowserModule,    
+    FormsModule,
     NgbModule.forRoot()
   ],
   providers: [],
