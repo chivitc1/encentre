@@ -12,9 +12,7 @@
           <input type="text"
             class="form-control"
             formControlName="empNo"
-            [(ngModel)]="emp.empNo"
-            required
-            pattern="[0-9]+">
+            [(ngModel)]="emp.empNo">
         </td>
 
         <div *ngIf="form.controls.empNo.dirty && !form.controls.empNo.valid"
@@ -70,6 +68,24 @@
             [(ngModel)]="emp.designation"
             readonly>
         </td>
+      </tr>
+
+      <tr>
+        <td>Email</td>
+        <td>
+          <input type="text" class="form-control"
+            [(ngModel)]="emp.email"
+            formControlName="email">
+        </td>
+        <div *ngIf="form.controls.email.dirty && !form.controls.email.valid"
+          class="alert alert-danger">
+          <p *ngIf="form.controls.email.errors.required">
+            Email address is mandatory
+          </p>
+          <p *ngIf="form.controls.email.errors.invalidEmail">
+            Email must be valid with all character in lower case
+          </p>
+        </div>
       </tr>
     </table>
     <hr>
