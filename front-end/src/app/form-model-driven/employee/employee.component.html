@@ -2,7 +2,9 @@
   employee works!
 </p>
 <div [hidden]="frmSubmitted">
-  <form (ngSubmit)="save()" [formGroup]="form">
+  <form (ngSubmit)="save()" 
+    [formGroup]="form"
+    novalidate>
     <table class="table table-stripped table-bordered">
       <tr>
         <td>Emp No</td>
@@ -10,8 +12,20 @@
           <input type="text"
             class="form-control"
             formControlName="empNo"
-            [(ngModel)]="emp.empNo">
+            [(ngModel)]="emp.empNo"
+            required
+            pattern="[0-9]+">
         </td>
+
+        <div *ngIf="form.controls.empNo.dirty && !form.controls.empNo.valid"
+          class="alert alert-danger">
+          <p *ngIf="form.controls.empNo.errors.required">
+            Employee number is mandatory
+          </p>
+          <p *ngIf="form.controls.empNo.errors.pattern">
+            Employee number must be numeric
+          </p>
+        </div>
       </tr>
       <tr>
         <td>Emp Name</td>
@@ -69,7 +83,8 @@
         </td>
         <td>
           <input type="submit"
-            value="Submit" class="btn btn-success">
+            value="Submit" class="btn btn-success"
+            [disabled]="!form.valid">
         </td>
       </tr>
     </table>
