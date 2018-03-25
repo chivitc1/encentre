@@ -1,0 +1,27 @@
+<p>
+  chat-app works!
+</p>
+<div class="row">
+  <img src="/assets/images/avarta1.png" alt="Your image" height="50" width="50">
+  <textarea cols="30" rows="2"
+    [(ngModel)]="msgText"></textarea>
+  <button class="btn btn-primary" (click)="sendMessage()">Send Message</button>
+</div>
+
+<div class="row" *ngIf="messages.length > 0">
+  <div class="media" style="margin-top: 15;"
+    *ngFor="let msg of messages">
+    <div class="float-left">
+      <img class="media-object" [src]="msg.from.avarta" height="50" width="50">
+    </div>
+
+    <div class="media-body">
+      <small>
+        {{msg.from.name}} at {{msg.time | date:'mediumTime'}}
+      </small>
+      <div class="message-preview">
+        {{msg.messageText}}
+      </div>
+    </div>
+  </div>
+</div>

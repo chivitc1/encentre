@@ -3,27 +3,22 @@ import { NgModule, Component } from '@angular/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from './app.component';
-import { HelloComponent } from './hello/hello.component';
-import { OrdersComponent } from './orders/orders.component';
-import { EmployeeComponent } from './form-model-driven/employee/employee.component';
 import { FormsModule } from '@angular/forms';
+import { ChatAppComponent } from './chat/chat-app/chat-app.component';
+import { ChattingService } from './chat/chatting.service';
+import { ChatBotService } from './chat/chat-bot.service';
 
-@Component({
-  selector: "orders-app",
-  template: `<app-orders></app-orders>`
-})
-export class OrdersAppComponent {}
 @NgModule({
   declarations: [
     AppComponent,
-    EmployeeComponent
+    ChatAppComponent
   ],
   imports: [
     BrowserModule,    
     FormsModule,
     NgbModule.forRoot()
   ],
-  providers: [],
+  providers: [ChattingService, ChatBotService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
