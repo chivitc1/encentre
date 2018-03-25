@@ -25,7 +25,10 @@ export class EmployeeComponent implements OnInit {
   employees: Employee[];
 
   refreshEmployees() {
-    this.employees = this.empService.list();
+    this.empService.list()
+      .then(list => {
+        this.employees = list;
+      });
   }
   clear() {
     this.emp = new Employee(0, "");

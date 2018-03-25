@@ -1,33 +1,15 @@
-# Demo use service in component
-- Declare @Injectable() in service class
-@Injectable()
-export class EmployeeService {
-
-  private employees: Employee[];
-  constructor() {
-    this.employees = [
-      { empNo: 1, empName: 'Nguyen Van A'},
-      { empNo: 2, empName: 'Nguyen Van B'},
-      { empNo: 3, empName: 'Nguyen Van C'},
-      { empNo: 4, empName: 'Nguyen Van D'}
-    ]
+# Demo use async service call in component
+- ES6 Promise<T>
+- Value is available when Promise is resolved
+   list(): Promise<Employee[]> {
+     return Promise.resolve(this.employees);
    }
 
-   list(): Employee[] {
-     return this.employees;
-   }
+- Client code of Promise call then(x => { }) to handle data
 
-- Declare service in component provider or module provider, and inject service in component constructor args
-
-@Component({
-  selector: 'app-employee',
-  templateUrl: './employee.component.html',
-  styleUrls: ['./employee.component.css'],
-  providers: [EmployeeService]
-})
-export class EmployeeComponent implements OnInit {
-
-  constructor(private empService: EmployeeService) {
-    this.emp = new Employee(0, "");
-    this.frmSubmitted = false;
-   }
+  refreshEmployees() {
+    this.empService.list()
+      .then(list => {
+        this.employees = list;
+      });
+  }

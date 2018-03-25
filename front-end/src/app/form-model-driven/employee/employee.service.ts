@@ -14,12 +14,12 @@ export class EmployeeService {
     ]
    }
 
-   list(): Employee[] {
-     return this.employees;
+   list(): Promise<Employee[]> {
+     return Promise.resolve(this.employees);
    }
 
-   get(empNo: number): Employee {
-      return this.employees.find(x => x.empNo === empNo);
+   get(empNo: number): Promise<Employee> {
+      return Promise.resolve(this.employees.find(x => x.empNo === empNo));
    }
 
    insert(emp: Employee) {
