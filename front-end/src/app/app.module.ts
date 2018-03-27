@@ -4,21 +4,25 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from './app.component';
 import { FormsModule } from '@angular/forms';
-import { ChatAppComponent } from './chat/chat-app/chat-app.component';
-import { ChattingService } from './chat/chatting.service';
-import { ChatBotService } from './chat/chat-bot.service';
+import { HttpClientModule } from '@angular/common/http';
+import { SearchCityComponent } from './city/search-city/search-city.component';
+import { ArticlesComponent } from './article/articles/articles.component';
+import { AddComponent } from './article/add/add.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ChatAppComponent
+    SearchCityComponent,
+    ArticlesComponent,
+    AddComponent
   ],
   imports: [
     BrowserModule,    
     FormsModule,
+    HttpClientModule,
     NgbModule.forRoot()
   ],
-  providers: [ChattingService, ChatBotService],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

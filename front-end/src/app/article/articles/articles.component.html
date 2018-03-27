@@ -1,0 +1,16 @@
+<h3>Add article</h3>
+<app-add></app-add>
+<hr>
+<h3>List</h3>
+<ul>
+  <li *ngFor="let post of _posts">
+    {{post.title}}&nbsp;&nbsp;<button (click)="showPost(post.id)">Show</button>
+  </li>
+</ul>
+<div #modal id="myModal" class="modal">
+  <div class="modal-content">
+    <span class="close" (click)="closeModal()">&times;</span>
+    <h3>{{this._post.title}}</h3>
+    <p>{{this._post.body}}</p>
+  </div>
+</div>

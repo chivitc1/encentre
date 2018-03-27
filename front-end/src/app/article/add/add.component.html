@@ -1,0 +1,12 @@
+<div>
+  Title:<br/>
+  <div class="row">
+    <input type="text" [(ngModel)]="_title" size="50" />
+  </div>
+  <div class="row">
+    <textarea [(ngModel)]="_body" cols="50" rows="2"></textarea>
+  </div>
+  <div class="row">
+    <button (click)="onAdd()">Add</button>
+  </div>
+</div>
