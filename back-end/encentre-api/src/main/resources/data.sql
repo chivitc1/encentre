@@ -1,0 +1,1 @@
+INSERT INTO TABLE "ARTICLE" (id, title, text) values(1, "title1", "body1")

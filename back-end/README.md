@@ -1,0 +1,1 @@
+Base project with SpringBoot 2.0 setup

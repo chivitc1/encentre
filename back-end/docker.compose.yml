@@ -1,0 +1,15 @@
+version: '2'
+
+services:
+
+  article-db:
+    image: local/demo:mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+
+  article-api:
+    image: article
+    restart: always
+    ports:
+      - 8080:8080
