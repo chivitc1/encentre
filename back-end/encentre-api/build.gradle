@@ -26,9 +26,14 @@ repositories {
 
 
 dependencies {
-	compile('org.springframework.boot:spring-boot-starter-web')
-	compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.16.10'
+	compile 'org.springframework.boot:spring-boot-starter-web'
+	compile("org.springframework.boot:spring-boot-starter-jdbc")
 	testCompile 'org.springframework.boot:spring-boot-starter-test'
+	compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.16.10'
+
+	compile "org.postgresql:postgresql:42.2.2"
+	compile "com.zaxxer:HikariCP:2.6.1"
+
 }
 
 configurations {
@@ -48,7 +53,7 @@ sourceSets {
 }
 
 task integrationTest(type: Test) {
-	testClassesDir = sourceSets.integrationTest.output.classesDir
+	testClassesDirs = sourceSets.integrationTest.output.classesDirs
 	classpath = sourceSets.integrationTest.runtimeClasspath
 	outputs.upToDateWhen { false }
 }

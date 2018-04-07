@@ -1,24 +1,32 @@
 package vn.com.itworks.encentreapi.configuration;
 
-import org.springframework.beans.factory.annotation.Value;
+import com.zaxxer.hikari.HikariDataSource;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.Resource;
-import vn.com.itworks.encentreapi.services.BannerLoader;
+import org.springframework.context.annotation.Primary;
+import org.springframework.core.env.Environment;
 
 @Configuration
 public class MySpringConfig
 {
-	@Value("classpath:app-banner.txt")
-	private Resource banner;
-
-	@Bean("banner")
-	public Resource getBanner() {
-		return this.banner;
-	}
+	@Autowired
+	private Environment env;
 
 	@Bean
-	public BannerLoader bannerLoader() {
-		return new BannerLoader();
+	@Primary
+	@ConfigurationProperties("spring.datasource")
+	public DataSourceProperties dataSourceProperties() {
+		return new DataSourceProperties();
+	}
+
+	@Primary
+	@Bean(name = "dataSource")
+	@ConfigurationProperties("spring.datasource")
+	public HikariDataSource dataSource(DataSourceProperties properties) {
+		return properties.initializeDataSourceBuilder().type(HikariDataSource.class)
+				.build();
 	}
 }
