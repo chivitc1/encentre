@@ -21,7 +21,7 @@ import static junit.framework.TestCase.assertTrue;
 @ActiveProfiles("test")
 @PropertySource("classpath:application_test.properties")
 @Sql("classpath:schema.sql")
-public class AritcleDaoTests
+public class ArticleDaoTests
 {
 	@Autowired
 	private ArticleRepository articleRepository;

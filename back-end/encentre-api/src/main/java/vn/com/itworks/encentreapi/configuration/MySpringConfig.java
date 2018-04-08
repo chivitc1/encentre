@@ -12,9 +12,6 @@ import org.springframework.core.env.Environment;
 @Configuration
 public class MySpringConfig
 {
-	@Autowired
-	private Environment env;
-
 	@Bean
 	@Primary
 	@ConfigurationProperties("spring.datasource")
