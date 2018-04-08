@@ -22,31 +22,31 @@ import javax.sql.DataSource;
 @PropertySource("classpath:application_test.properties")
 public class MySpringTestConfig
 {
-	@Autowired
-	private Environment env;
+//	@Autowired
+//	private Environment env;
+//
+//	@Bean
+//	@Primary
+//	@ConfigurationProperties("spring.datasource")
+//	public DataSourceProperties dataSourceProperties() {
+//		return new DataSourceProperties();
+//	}
+//
+//	@Primary
+//	@Bean(name = "dataSource")
+//	@Profile("test")
+//	public DataSource dataSource() {
+//
+//		DriverManagerDataSource dataSource = new DriverManagerDataSource();
+//		dataSource.setDriverClassName(env.getProperty("spring.datasource.driver-class-name"));
+//		dataSource.setUrl(env.getProperty("spring.datasource.url"));
+//		dataSource.setUsername(env.getProperty("spring.datasource.username"));
+//		dataSource.setPassword(env.getProperty("spring.datasource.password"));
+//		return dataSource;
+//	}
 
-	@Bean
-	@Primary
-	@ConfigurationProperties("spring.datasource")
-	public DataSourceProperties dataSourceProperties() {
-		return new DataSourceProperties();
-	}
-
-	@Primary
-	@Bean(name = "dataSource")
-	@Profile("test")
-	public DataSource dataSource() {
-
-		DriverManagerDataSource dataSource = new DriverManagerDataSource();
-		dataSource.setDriverClassName(env.getProperty("spring.datasource.driver-class-name"));
-		dataSource.setUrl(env.getProperty("spring.datasource.url"));
-		dataSource.setUsername(env.getProperty("spring.datasource.username"));
-		dataSource.setPassword(env.getProperty("spring.datasource.password"));
-		return dataSource;
-	}
-
-	@Bean
-	public ArticleRepository articleRepository() {
-		return new ArticleDao(dataSource());
-	}
+//	@Bean
+//	public ArticleRepository articleRepository() {
+//		return new ArticleDao(dataSource());
+//	}
 }

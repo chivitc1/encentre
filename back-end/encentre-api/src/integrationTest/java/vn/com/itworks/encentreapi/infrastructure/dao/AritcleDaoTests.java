@@ -6,18 +6,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
-import vn.com.itworks.encentreapi.EncentreApiApplication;
-import vn.com.itworks.encentreapi.config.MySpringTestConfig;
+import vn.com.itworks.encentreapi.config.EmbeddedPostgresConfiguration;
 import vn.com.itworks.encentreapi.domain.Article;
 import vn.com.itworks.encentreapi.repository.ArticleRepository;
+
+import java.util.List;
 
 import static junit.framework.TestCase.assertTrue;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = {EncentreApiApplication.class, MySpringTestConfig.class})
+@SpringBootTest(classes = {EmbeddedPostgresConfiguration.class})
 @ActiveProfiles("test")
 @PropertySource("classpath:application_test.properties")
+@Sql("classpath:schema.sql")
 public class AritcleDaoTests
 {
 	@Autowired
@@ -32,6 +35,8 @@ public class AritcleDaoTests
 				.author("An Author")
 				.build();
 		Article newArticle = articleRepository.insert(article);
-		assertTrue(newArticle.getId().length() > 1);
+
+		List<Article> articles = articleRepository.findAll();
+		assertTrue(articles.size() > 0);
 	}
 }

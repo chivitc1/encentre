@@ -29,7 +29,12 @@ public class EncentreApiApplication {
 			log.info("Welcome to SpringBoot based empty project");
 			Optional<List<Article>> optArticleList = articleService.getAll();
 			if (optArticleList.isPresent()) {
-				log.info("DONE");
+
+				List<Article> articles = optArticleList.get();
+				int index = 0;
+				for(Article item : articles) {
+					System.out.println(String.format("%d. %s, by %s", ++index, item.getTitle(), item.getAuthor()));
+				};
 			}
 		};
 	}
