@@ -2,10 +2,12 @@ package vn.com.itworks.encentreapi.config;
 
 import de.flapdoodle.embed.process.runtime.Network;
 import org.postgresql.ds.PGPoolingDataSource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.annotation.Profile;
+import org.springframework.jdbc.core.JdbcTemplate;
 import ru.yandex.qatools.embed.postgresql.PostgresExecutable;
 import ru.yandex.qatools.embed.postgresql.PostgresProcess;
 import ru.yandex.qatools.embed.postgresql.PostgresStarter;
@@ -55,12 +57,5 @@ public class EmbeddedPostgresConfiguration
 		dataSource.setDatabaseName(postgresConfig.storage().dbName());
 
 		return dataSource;
-	}
-
-	@Bean
-	@DependsOn("dataSource")
-	@Profile("test")
-	public ArticleRepository articleRepository(DataSource _dataSource) {
-		return new ArticleDao(_dataSource);
 	}
 }
