@@ -1,15 +1,13 @@
 --create table article
 DROP TABLE IF EXISTS article;
 CREATE TABLE article (
-	id uuid NOT NULL,
+	id serial,
 	title varchar(50) NOT NULL,
 	body varchar(500) NOT NULL,
 	author varchar(50) NOT NULL,
 	created_at timestamp NULL,
 	lastmodified timestamp NULL DEFAULT now()
 );
---id
-ALTER TABLE article ALTER COLUMN id SET DEFAULT uuid_in((md5((random())::text))::cstring);
 
 ---created_at
 alter table article

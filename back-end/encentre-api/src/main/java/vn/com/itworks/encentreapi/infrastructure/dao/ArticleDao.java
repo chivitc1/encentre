@@ -1,6 +1,7 @@
 package vn.com.itworks.encentreapi.infrastructure.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -22,6 +23,8 @@ public class ArticleDao implements ArticleRepository
 			"(title, body, author) " +
 			"VALUES (?, ?, ?)";
 	private static final String SELECT_ALL_SQL = "SELECT * FROM ARTICLE";
+	private static final String SELECT_ONE_SQL = "SELECT * FROM ARTICLE WHERE id = ?";
+	private static final String SELECT_SINGLE_VALUE = "SELECT author FROM ARTICLE WHERE id = ?";
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
@@ -39,7 +42,7 @@ public class ArticleDao implements ArticleRepository
 
 			return ps;
 		}, keyHolder);
-		_article.setId(keyHolder.getKeys().get("id").toString());
+		_article.setId((Integer)keyHolder.getKeys().get("id"));
 		return _article;
 	}
 
@@ -51,6 +54,22 @@ public class ArticleDao implements ArticleRepository
 		return articles;
 	}
 
+	public Article findById(int _id)
+	{
+		Article article =
+				jdbcTemplate.queryForObject(SELECT_ONE_SQL, new ArticleRowMapper(), _id);
+		return article;
+	}
+
+	public List<Article> findAllV2() {
+		return jdbcTemplate.query(SELECT_ALL_SQL,
+				BeanPropertyRowMapper.newInstance(Article.class));
+	}
+
+	public String getAuthor(int _articleId) {
+		return jdbcTemplate.queryForObject(SELECT_SINGLE_VALUE, String.class, _articleId);
+	}
+
 	private class ArticleRowMapper implements RowMapper<Article> {
 
 		@Nullable
@@ -58,7 +77,7 @@ public class ArticleDao implements ArticleRepository
 		public Article mapRow(ResultSet rs, int rowNum) throws SQLException
 		{
 			return Article.builder()
-					.id(rs.getString("id"))
+					.id(rs.getInt("id"))
 					.title(rs.getString("title"))
 					.body(rs.getString("body"))
 					.author(rs.getString("author"))

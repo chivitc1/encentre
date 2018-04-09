@@ -1,7 +1,9 @@
 package vn.com.itworks.encentreapi.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Setter;
 
@@ -10,10 +12,12 @@ import java.sql.Timestamp;
 @Getter
 @Setter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Article
 {
 	@NonNull
-	private String id;
+	private Integer id;
 
 	@NonNull
 	private String title;

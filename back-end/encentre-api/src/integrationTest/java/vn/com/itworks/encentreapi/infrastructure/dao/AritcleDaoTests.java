@@ -15,12 +15,14 @@ import vn.com.itworks.encentreapi.repository.ArticleRepository;
 
 import java.util.List;
 
+import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.assertNotNull;
 import static junit.framework.TestCase.assertTrue;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {EmbeddedPostgresConfiguration.class, MySpringTestConfig.class})
 @ActiveProfiles("test")
-@PropertySource("classpath:application_test.properties")
+//@PropertySource("classpath:application_test.properties")
 @Sql("classpath:schema.sql")
 public class AritcleDaoTests
 {
@@ -30,7 +32,7 @@ public class AritcleDaoTests
 	@Test
 	public void can_insert_article() {
 		Article article = Article.builder()
-				.id("0")
+				.id(0)
 				.title("A Title")
 				.body("Test body")
 				.author("An Author")
@@ -39,6 +41,13 @@ public class AritcleDaoTests
 		System.out.println("new ID: " + newArticle.getId());
 
 		List<Article> articles = articleRepository.findAll();
+		Article articleFromDb = articleRepository.findById(1);
+		List<Article> articlesV2 = articleRepository.findAllV2();
+		String strAuthor = articleRepository.getAuthor(newArticle.getId());
+
 		assertTrue(articles.size() > 0);
+		assertNotNull(articleFromDb);
+		assertTrue(articlesV2.size() > 0);
+		assertEquals("An Author", strAuthor);
 	}
 }
