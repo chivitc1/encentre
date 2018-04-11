@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import vn.com.itworks.encentreapi.domain.Article;
 import vn.com.itworks.encentreapi.services.ArticleService;
@@ -19,6 +20,9 @@ public class EncentreApiApplication {
 	@Autowired
 	private ArticleService articleService;
 
+	@Autowired
+	private ApplicationContext applicationContext;
+
 	public static void main(String[] args) {
 		SpringApplication.run(EncentreApiApplication.class, args);
 	}
@@ -26,7 +30,13 @@ public class EncentreApiApplication {
 	@Bean
 	public CommandLineRunner run() {
 		return args -> {
-			log.info("Welcome to SpringBoot based empty project");
+			log.info("Welcome to SpringBoot");
+
+			int count = 0;
+			System.out.println("List of all beans Spring load: ");
+			for (String bName : applicationContext.getBeanDefinitionNames()) {
+				System.out.println(++count + ". " + bName);
+			}
 			Optional<List<Article>> optArticleList = articleService.getAll();
 			if (optArticleList.isPresent()) {
 

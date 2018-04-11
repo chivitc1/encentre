@@ -14,6 +14,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import vn.com.itworks.encentreapi.infrastructure.dao.ArticleDao;
 import vn.com.itworks.encentreapi.repository.ArticleRepository;
@@ -37,5 +38,10 @@ public class MySpringTestConfig
 	@DependsOn("jdbcTemplate")
 	public ArticleRepository articleRepository() {
 		return new ArticleDao();
+	}
+
+	@Bean("namedParameterJdbcTemplate")
+	public NamedParameterJdbcTemplate namedParameterJdbcTemplate() {
+		return new NamedParameterJdbcTemplate(dataSource);
 	}
 }

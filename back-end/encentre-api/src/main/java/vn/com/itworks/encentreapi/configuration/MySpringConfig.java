@@ -1,13 +1,26 @@
 package vn.com.itworks.encentreapi.configuration;
 
 import com.zaxxer.hikari.HikariDataSource;
+import org.apache.commons.dbcp2.ConnectionFactory;
+import org.apache.commons.dbcp2.DriverManagerConnectionFactory;
+import org.apache.commons.dbcp2.PoolableConnection;
+import org.apache.commons.dbcp2.PoolableConnectionFactory;
+import org.apache.commons.dbcp2.PoolingDataSource;
+import org.apache.commons.pool2.ObjectPool;
+import org.apache.commons.pool2.impl.GenericObjectPool;
+import org.springframework.beans.factory.annotation.Autowire;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.env.Environment;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+
+import javax.sql.DataSource;
 
 @Configuration
 public class MySpringConfig
@@ -19,11 +32,45 @@ public class MySpringConfig
 		return new DataSourceProperties();
 	}
 
-	@Primary
-	@Bean(name = "dataSource")
+	@Bean
 	@ConfigurationProperties("spring.datasource")
-	public HikariDataSource dataSource(DataSourceProperties properties) {
-		return properties.initializeDataSourceBuilder().type(HikariDataSource.class)
+	public HikariDataSource hikariDataSource(DataSourceProperties properties) {
+		return properties.initializeDataSourceBuilder()
+				.type(HikariDataSource.class)
 				.build();
+	}
+
+	@Autowired
+	private Environment env;
+
+//	@Primary
+	@Bean
+	public DataSource dbcpDataSource() {
+		String url = env.getProperty("spring.datasource.url");
+		String username = env.getProperty("spring.datasource.username");
+		String password = env.getProperty("spring.datasource.password");
+
+		ConnectionFactory connectionFactory =
+			new DriverManagerConnectionFactory(url, username, password);
+
+		PoolableConnectionFactory poolableConnectionFactory =
+			new PoolableConnectionFactory(connectionFactory,null);
+
+		ObjectPool<PoolableConnection> connectionPool =
+				new GenericObjectPool<>(poolableConnectionFactory);
+
+		poolableConnectionFactory.setPool(connectionPool);
+
+		PoolingDataSource dataSource =
+				new PoolingDataSource(connectionPool);
+		return dataSource;
+	}
+
+	@Bean(name = "namedParameterJdbcTemplate")
+//	@DependsOn("dbcpDataSource")
+	public NamedParameterJdbcTemplate namedParameterJdbcTemplate(
+			@Autowired @Qualifier("dbcpDataSource") DataSource dataSource)
+	{
+		return new NamedParameterJdbcTemplate(dataSource);
 	}
 }

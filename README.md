@@ -1,8 +1,17 @@
-# Use spring jdbctemplate for data access
-- Declare JdbcTemplate bean which use dataSource bean
-- Inject JdbcTemplate bean into Dao class
-- Insert/udpate method1: jdbcTemplate.update() which use params of PrepareStatementCreator for set sql, and may be a String[] store key values the insert sql return. PSTM then use to set param value for place-holders ? in sql. A KeyHolder need to pass to update() as well to hold the keys.
+# Use spring NamedJdbcTemplate for data access
+- JdbcTemplate use placeholder ? for passing parameters which the order of them are important.
+- NamedJdbcTemplate use :a_name to improve readability
+- Parameters can be provided by Map object
 
-- Query method1: use RowMapper<T> implementation to handle parsing resultset to model.
+- Spring bean default use method produce bean as bean name
+- We can use @Bean(name="aBeanName") to define bean name
+- When multiple bean candidate satisfy an @Autowired => you should set @Qualifier("nameOfBeanToUse") if beans have different names (should name them differently)
+- When bean of same type with same name exist, use @Primary on bean you want to use.
 
-- Query method2: use BeanPropertyRowMapper.newInstance(YourModel.class) to parse resultset to model
+Eg:
+	@Bean(name = "namedParameterJdbcTemplate")
+	public NamedParameterJdbcTemplate namedParameterJdbcTemplate(
+			@Autowired @Qualifier("dbcpDataSource") DataSource dataSource)
+	{
+		return new NamedParameterJdbcTemplate(dataSource);
+	}
