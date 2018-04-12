@@ -11,4 +11,6 @@ public interface ArticleRepository
 	Article findById(int _id);
 	List<Article> findAllV2();
 	String getAuthor(int _articleId);
+
+	List<Article> findAllArticlesWithComments();
 }

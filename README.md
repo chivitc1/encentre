@@ -15,3 +15,16 @@ Eg:
 	{
 		return new NamedParameterJdbcTemplate(dataSource);
 	}
+
+- Retrieve Nested Domain Objects with ResultSetExtractor:
+Article
+	id
+	List<Comment> comments
+Comment
+	id
+	articleId
+
+sql = SELECT a.id, a.title, a.body, a.created_at, 	a.lastmodified, a.author,
+				b.id comment_id, b.text comment_text, b.created_at comment_created_at,
+				b.author comment_author FROM ARTICLE a 
+				JOIN COMMENT b ON a.id = b.id;

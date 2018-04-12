@@ -11,3 +11,9 @@ insert into article (title, body, author) values ('Article5', 'Body 05', 'author
 insert into article (title, body, author) values ('Pro Spring', 'Bla bla Spring Bla', 'unknown');
 
 insert into article (title, body, author) values ('AAAAAAAAA', 'BBBBBBBBBB', 'unknown');
+
+-----------
+--INSERT into comment
+insert into comment (article_id, text, author) values (1, 'Comment comment 1', 'reader1');
+insert into comment (article_id, text, author) values (3, 'Comment comment 2', 'reader2');
+insert into comment (article_id, text, author) values (6, 'Comment comment 3', 'reader3');

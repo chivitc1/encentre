@@ -8,28 +8,24 @@ import lombok.NonNull;
 import lombok.Setter;
 
 import java.sql.Timestamp;
-import java.util.List;
 
 @Getter
 @Setter
-@Builder
-@NoArgsConstructor
 @AllArgsConstructor
-public class Article
+@NoArgsConstructor
+@Builder
+public class Comment
 {
 	@NonNull
 	private Integer id;
 
 	@NonNull
-	private String title;
+	private Integer articleId;
 
 	@NonNull
-	private String body;
+	private String text;
 
-	@NonNull
-	private String author;
 	private Timestamp createdAt;
-	private Timestamp lastModified;
 
-	private List<Comment> comments;
+	private String author;
 }

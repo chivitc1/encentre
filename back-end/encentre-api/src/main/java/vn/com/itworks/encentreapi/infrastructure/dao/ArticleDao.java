@@ -1,7 +1,10 @@
 package vn.com.itworks.encentreapi.infrastructure.dao;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -11,15 +14,19 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Repository;
 import vn.com.itworks.encentreapi.domain.Article;
+import vn.com.itworks.encentreapi.domain.Comment;
 import vn.com.itworks.encentreapi.repository.ArticleRepository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 @Repository
+@Slf4j
 public class ArticleDao implements ArticleRepository
 {
 	private static final String INSERT_SQL = "INSERT INTO ARTICLE " +
@@ -91,6 +98,57 @@ public class ArticleDao implements ArticleRepository
 					.createdAt(rs.getTimestamp("created_at"))
 					.lastModified(rs.getTimestamp("lastmodified"))
 					.build();
+		}
+	}
+
+	@Override
+	public List<Article> findAllArticlesWithComments() {
+		String sql = "SELECT a.id, a.title, a.body, a.created_at, a.lastmodified, a.author, " +
+				"b.id comment_id, b.text comment_text, b.created_at comment_created_at, " +
+				"b.author comment_author FROM ARTICLE a " +
+				"JOIN COMMENT b ON a.id = b.id";
+		List<Article> articles = namedJdbcTemplate.query(sql, new ArticleWithCommentExtractor());
+		return articles;
+	}
+
+	private static class ArticleWithCommentExtractor implements ResultSetExtractor<List<Article>> {
+
+		@Nullable
+		@Override
+		public List<Article> extractData(ResultSet rs) throws SQLException, DataAccessException
+		{
+			Map<Integer, Article> articleMap = new LinkedHashMap<>();
+			Article article;
+			while(rs.next()){
+				Integer id = rs.getInt("id");
+				article = articleMap.get(id);
+				if (article == null) {
+					article = Article.builder()
+							.id(id)
+							.title(rs.getString("title"))
+							.body(rs.getString("body"))
+							.author(rs.getString("author"))
+							.createdAt(rs.getTimestamp("created_at"))
+							.lastModified(rs.getTimestamp("lastmodified"))
+							.comments(new ArrayList<>())
+							.build();
+
+					int commentId = rs.getInt("comment_id");
+					log.info("COMMENT ID: " + commentId);
+					if (commentId > 0) {
+						Comment comment = Comment.builder()
+								.id(commentId)
+								.articleId(id)
+								.text(rs.getString("comment_text"))
+								.createdAt(rs.getTimestamp("comment_created_at"))
+								.author(rs.getString("comment_author"))
+								.build();
+						article.getComments().add(comment);
+					}
+					articleMap.put(id, article);
+				}
+			}
+			return new ArrayList<>(articleMap.values());
 		}
 	}
 }

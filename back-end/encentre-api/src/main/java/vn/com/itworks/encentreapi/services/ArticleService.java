@@ -21,4 +21,12 @@ public class ArticleService
 		}
 		return Optional.of(list);
 	}
+
+	public Optional<List<Article>> getArticleWithComments() {
+		List<Article> list = articleRepository.findAllArticlesWithComments();
+		if (list.size() == 0 ) {
+			return Optional.empty();
+		}
+		return Optional.of(list);
+	}
 }
