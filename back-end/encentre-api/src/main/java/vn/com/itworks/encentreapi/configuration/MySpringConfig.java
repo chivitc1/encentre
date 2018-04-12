@@ -8,17 +8,13 @@ import org.apache.commons.dbcp2.PoolableConnectionFactory;
 import org.apache.commons.dbcp2.PoolingDataSource;
 import org.apache.commons.pool2.ObjectPool;
 import org.apache.commons.pool2.impl.GenericObjectPool;
-import org.springframework.beans.factory.annotation.Autowire;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.env.Environment;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 import javax.sql.DataSource;
 
@@ -32,7 +28,8 @@ public class MySpringConfig
 		return new DataSourceProperties();
 	}
 
-	@Bean
+	@Primary
+	@Bean(name = "dataSource")
 	@ConfigurationProperties("spring.datasource")
 	public HikariDataSource hikariDataSource(DataSourceProperties properties) {
 		return properties.initializeDataSourceBuilder()
@@ -44,7 +41,7 @@ public class MySpringConfig
 	private Environment env;
 
 //	@Primary
-	@Bean
+	@Bean(name = "dataSource")
 	public DataSource dbcpDataSource() {
 		String url = env.getProperty("spring.datasource.url");
 		String username = env.getProperty("spring.datasource.username");
@@ -64,13 +61,5 @@ public class MySpringConfig
 		PoolingDataSource dataSource =
 				new PoolingDataSource(connectionPool);
 		return dataSource;
-	}
-
-	@Bean(name = "namedParameterJdbcTemplate")
-//	@DependsOn("dbcpDataSource")
-	public NamedParameterJdbcTemplate namedParameterJdbcTemplate(
-			@Autowired @Qualifier("dbcpDataSource") DataSource dataSource)
-	{
-		return new NamedParameterJdbcTemplate(dataSource);
 	}
 }

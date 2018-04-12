@@ -6,11 +6,9 @@ import java.util.List;
 
 public interface ArticleRepository
 {
-	Article insert(Article _article);
+	Article saveOrUpdate(Article _article);
 	List<Article> findAll();
 	Article findById(int _id);
-	List<Article> findAllV2();
-	String getAuthor(int _articleId);
 
 	List<Article> findAllArticlesWithComments();
 }

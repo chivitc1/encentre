@@ -44,7 +44,8 @@ public class EncentreApiApplication {
 				List<Article> articles = optArticleList.get();
 				int index = 0;
 				for(Article item : articles) {
-					System.out.println(String.format("%d. %s, by %s", ++index, item.getTitle(), item.getAuthor()));
+					System.out.println(String.format("%d. %s, by %s", ++index,
+							item.getTitle(), item.getAuthor().getName()));
 				}
 			}
 
@@ -56,9 +57,10 @@ public class EncentreApiApplication {
 				int index = 0;
 				for(Article item : articles) {
 					for (Comment comment : item.getComments()) {
-						System.out.println(String.format("%d. %s, [ %s], commented by %s", ++index, item.getTitle(),
+						System.out.println(String.format("%d. %s, [ %s], commented by %s", ++index,
+								item.getTitle(),
 								comment.getText(),
-								comment.getAuthor()));
+								comment.getAuthor().getName()));
 					}
 				};
 			}

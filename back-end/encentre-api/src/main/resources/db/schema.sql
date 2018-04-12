@@ -1,5 +1,20 @@
+--create author_id_sequence
+DROP SEQUENCE IF EXISTS author_id_seq CASCADE;
+CREATE SEQUENCE author_id_seq
+INCREMENT BY 1
+MINVALUE 1
+MAXVALUE 9223372036854775807
+START 1;
+
+--create table author
+DROP TABLE IF EXISTS author;
+CREATE TABLE author (
+	id serial NOT NULL,
+	name varchar(50) NOT NULL
+);
+
 --create comment_id_sequence
-DROP SEQUENCE IF EXISTS article_id_seq;
+DROP SEQUENCE IF EXISTS article_id_seq CASCADE;
 CREATE SEQUENCE article_id_seq
 INCREMENT BY 1
 MINVALUE 1
@@ -12,13 +27,13 @@ CREATE TABLE article (
 	id serial NOT NULL,
 	title varchar(50) NOT NULL,
 	body varchar(500) NOT NULL,
-	author varchar(50) NOT NULL,
+	author_id int4 NOT NULL,
 	created_at timestamp NULL,
 	lastmodified timestamp NULL DEFAULT now()
 );
 
 --create comment_id_sequence
-DROP SEQUENCE IF EXISTS comment_id_seq;
+DROP SEQUENCE IF EXISTS comment_id_seq CASCADE;
 CREATE SEQUENCE comment_id_seq
 INCREMENT BY 1
 MINVALUE 1
@@ -27,10 +42,10 @@ START 1;
 --create table comment
 DROP TABLE IF EXISTS comment;
 CREATE TABLE comment (
-	id serial NOT NULL default nextval('comment_id_seq'::regclass),
+	id serial NOT NULL,
 	article_id int4 NOT NULL,
 	text varchar(500) NOT NULL,
-	author varchar(50) NOT NULL,
+	author_id int4 NOT NULL,
 	created_at timestamp NULL DEFAULT now()
 );
 ---created_at
