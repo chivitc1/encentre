@@ -9,7 +9,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import vn.com.itworks.encentreapi.domain.Article;
 import vn.com.itworks.encentreapi.domain.Author;
-import vn.com.itworks.encentreapi.domain.Comment;
 import vn.com.itworks.encentreapi.services.ArticleService;
 import vn.com.itworks.encentreapi.view.ArticleComment;
 
@@ -60,14 +59,26 @@ public class EncentreApiApplication {
 				}
 			}
 
+			System.out.println("JPA query entities with condition:");
+			Optional<List<Article>> optList2 = articleService.findAllArticleByAuthorName("Author1");
+			if (optList2.isPresent()) {
+
+				List<Article> articles = optList2.get();
+				int index = 0;
+				for(Article item : articles) {
+					System.out.println(String.format("%d. %s, by %s", ++index,
+							item.getTitle(), item.getAuthor().getName()));
+				}
+			}
+
 			System.out.println("JPA query non-entities");
-			Optional<List<ArticleComment>> optList = articleService.findAllArticleComments();
+			Optional<List<ArticleComment>> optList = articleService.findArticleWithComments();
 			if (optArticleList.isPresent()) {
 
 				List<ArticleComment> list = optList.get();
 				int index = 0;
 				for(ArticleComment item : list) {
-					System.out.println(String.format("%d. %s, by %s", ++index,
+					System.out.println(String.format("%d. %s, with comment: %s", ++index,
 							item.getArticleTitle(), item.getCommentText()));
 				}
 			}

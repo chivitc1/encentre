@@ -11,36 +11,37 @@
 - @Entity
 - @Id
 - @Transactional at DAO class
-## JPA EntityManager
-- Inject EntityManager bean
-@PersistenceContext
-private EntityManager em;
+## Spring Jpa CrudRepository<T, TId>
+- Enable JPA repositories
+
+	@Configuration
+	@Slf4j
+	@EnableTransactionManagement
+	@EnableJpaRepositories(basePackages = {"vn.com.itworks.encentreapi.repository"})
+	public class MyJpaConfig
+	{ ...
+
+- Create a Spring data jpa repository
+public interface ArticleCrudRepository extends CrudRepository<Article, Integer>
+{
+	List<Article> findByAuthorName(String _authorName);
+
+	@Query("SELECT new vn.com.itworks.encentreapi.view.ArticleComment(" +
+			"a.title, b.text) FROM Article a " +
+			"INNER JOIN a.comments b")
+	List<ArticleComment> findArticleWithComments();
+}
 
 - Insert or update
-	if (_article.getId() == null) {
-			em.persist(_article);
-		} else {
-			em.merge(_article);
-		}
+	articleCrudRepository.save(_article);
 
 - Query list of entities
-	em.createQuery("from Article a", Article.class)
-					.getResultList();
+	List<Article> list = new ArrayList<>();
+		articleCrudRepository.findAll().forEach(list::add);
 
-- Query entity with param
-		Map<String, Object> parameters = new HashMap<>();
-		parameters.put("id", _id);
-
-		TypedQuery<Article> typedQuery =
-				em.createQuery("from Article a", Article.class);
-		typedQuery.setParameter("id", _id);
-		return typedQuery.getSingleResult();
 
 -Query list of non-entity
 
-List<ArticleComment> articleCommentList =
-				em.createQuery("select new vn.com.itworks.encentreapi.view.ArticleComment(" +
-				"a.title articleTitle, b.text commentText from Article a " +
-				"inner join a.comments b ",
-				ArticleComment.class
-		).getResultList();
+List<ArticleComment> list = new ArrayList<>();
+		articleCrudRepository.findArticleWithComments()
+				.forEach(list::add);
