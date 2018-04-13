@@ -23,7 +23,6 @@ import java.sql.Timestamp;
 @Entity @Table(name = "comment")
 public class Comment
 {
-	@NonNull
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
