@@ -31,18 +31,14 @@ import java.util.List;
 })
 public class Article
 {
-	@NonNull
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 
 	private Integer id;
 
-	@NonNull
 	private String title;
 
-	@NonNull
 	private String body;
 
-	@NonNull
 	@OneToOne @JoinColumn(name = "author_id")
 	private Author author;
 

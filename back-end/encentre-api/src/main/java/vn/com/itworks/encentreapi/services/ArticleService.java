@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import vn.com.itworks.encentreapi.domain.Article;
 import vn.com.itworks.encentreapi.repository.ArticleRepository;
+import vn.com.itworks.encentreapi.view.ArticleComment;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,17 +25,18 @@ public class ArticleService
 		return Optional.of(list);
 	}
 
-	public Optional<List<Article>> getArticleWithComments() {
-		List<Article> list = articleRepository.findAllArticlesWithComments();
-		if (list.size() == 0 ) {
-			return Optional.empty();
-		}
-		return Optional.of(list);
-	}
-
 	@Transactional(readOnly = false)
 	public Article insert(Article _article) {
 		articleRepository.saveOrUpdate(_article);
 		return _article;
+	}
+
+	@Transactional(readOnly = true)
+	public Optional<List<ArticleComment>> findAllArticleComments(){
+		List<ArticleComment> list = articleRepository.findAllArticleComments();
+		if (list.size() == 0 ) {
+			return Optional.empty();
+		}
+		return Optional.of(list);
 	}
 }

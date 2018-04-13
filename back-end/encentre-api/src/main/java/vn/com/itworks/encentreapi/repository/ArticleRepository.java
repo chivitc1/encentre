@@ -1,6 +1,7 @@
 package vn.com.itworks.encentreapi.repository;
 
 import vn.com.itworks.encentreapi.domain.Article;
+import vn.com.itworks.encentreapi.view.ArticleComment;
 
 import java.util.List;
 
@@ -10,5 +11,6 @@ public interface ArticleRepository
 	List<Article> findAll();
 	Article findById(int _id);
 
-	List<Article> findAllArticlesWithComments();
+
+	List<ArticleComment> findAllArticleComments();
 }

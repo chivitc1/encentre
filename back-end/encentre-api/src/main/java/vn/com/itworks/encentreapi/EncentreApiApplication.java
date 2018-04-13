@@ -8,8 +8,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import vn.com.itworks.encentreapi.domain.Article;
+import vn.com.itworks.encentreapi.domain.Author;
 import vn.com.itworks.encentreapi.domain.Comment;
 import vn.com.itworks.encentreapi.services.ArticleService;
+import vn.com.itworks.encentreapi.view.ArticleComment;
 
 import java.util.List;
 import java.util.Optional;
@@ -38,6 +40,15 @@ public class EncentreApiApplication {
 			for (String bName : applicationContext.getBeanDefinitionNames()) {
 				System.out.println(++count + ". " + bName);
 			}
+
+			System.out.println("JPA insert entity");
+			articleService.insert(Article.builder()
+					.id(null)
+					.title("a Title")
+					.body("a Body")
+					.author(Author.builder().id(1).name("Chinv").build()).build());
+
+			System.out.println("JPA query entities");
 			Optional<List<Article>> optArticleList = articleService.getAll();
 			if (optArticleList.isPresent()) {
 
@@ -49,20 +60,16 @@ public class EncentreApiApplication {
 				}
 			}
 
-			System.out.println("Demo ResultSetExtractor Articles which have comments:");
-			Optional<List<Article>> optArticleList2 = articleService.getArticleWithComments();
-			if (optArticleList2.isPresent()) {
+			System.out.println("JPA query non-entities");
+			Optional<List<ArticleComment>> optList = articleService.findAllArticleComments();
+			if (optArticleList.isPresent()) {
 
-				List<Article> articles = optArticleList2.get();
+				List<ArticleComment> list = optList.get();
 				int index = 0;
-				for(Article item : articles) {
-					for (Comment comment : item.getComments()) {
-						System.out.println(String.format("%d. %s, [ %s], commented by %s", ++index,
-								item.getTitle(),
-								comment.getText(),
-								comment.getAuthor().getName()));
-					}
-				};
+				for(ArticleComment item : list) {
+					System.out.println(String.format("%d. %s, by %s", ++index,
+							item.getArticleTitle(), item.getCommentText()));
+				}
 			}
 		};
 	}
